@@ -1,0 +1,96 @@
+   Client mode
+===================
+ 1  init 0
+    2  ip a
+    3  vim /etc/hostname
+    4  hostname
+    5  vim /etc/hosts
+    6  init 6
+    7  vim /etc/hosts
+    8  ping 192.168.110.137
+    9  systemctl stop firewalld
+   10  systemctl status firewalld
+   11  systemctl enble firewalld
+   12  systemctl enable firewalld
+   13  setenforce 0
+   14  getenforce 
+   15  history
+   16  yum insatll openldap-clients nss-pam-ldapd
+   17  yum install openldap-clients nss-pam-ldapd
+   18  authconfig --enableldap --enableldapauth --ldapserver=192.168.110.137 --ldapbasedn="dc=cdac,dc=in" --enablemkhomedir --update
+   19  echo $?
+   20  setforce 0
+   21  setenforce 0
+   22  systemctl status firewalld
+   23  systemctl restart nslcd
+   24  systemctl status nslcd
+   25  ldap
+   26  ldap 
+   27  ldap -h
+   28  ldap -x
+   29  ldapsearch -x
+   30  vim /etc/nslcd.conf 
+   31  vim /etc/nsswitch.conf
+   32  getent passwd
+   33  ssh 192.168.110.137
+   34  ssh hpcsa@localhost
+
+
+++++++++++++++++++++++++++++++++Server mode+++++++++++++++++++++++++++++++++++
+
+2  ip a
+    3  hostname
+    4  vim /etc/hosts
+    5  ping 192.168.110.136
+    6  systemctl stop firewalld
+    7  vim /etc/selinux/
+    8  vim /etc/selinux/config 
+    9  init 6
+   10  vim file.ldif 
+   11  cat passwd_ldap 
+   12  yum -y install openldap-servers openldap-clients
+   13  cp /usr/share/openldap-servers/DB_CONFIG.example /var/lib/ldap/DB_CONFIG
+   14  chown ldap. /var/lib/ldap/DB_CONFIG
+   15  systemctl start slapd
+   16  systemctl enable slapd
+   17  ls -l 
+   18  ls -l /var/lib/ldap
+   19  systemctl status slapd
+   20  touch passwd_ldap
+   21  slappasswd > passwd_ldap 
+   22  cat passwd_ldap 
+   23  vim file_ldif
+   24  ldapadd -Y EXTERNAL -H ldapi:// -f chrootpw.ldif
+   25  ldapadd -Y EXTERNAL -H ldapi:/// -f chrootpw.ldif
+   26  mv file_ldif file.ldif
+   27  vim file.ldif 
+   28  ldapadd -Y EXTERNAL -H ldapi:/// -f file.ldif 
+   29  ldapadd -Y EXTERNAL -H idapi:// -f /etc/openldap/cosine.ldif
+   30  ldapadd -Y EXTERNAL -H idapi:/// -f /etc/openldap/cosine.ldif
+   31  ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/cosine.ldif
+   32  ldapadd -Y EXTERNAL -H ldiap:/// -f /etc/openldap/schema/nis.ldif 
+   33  ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/nis.ldif 
+   34  ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/inetorgperson.ldif 
+   35  vim chdomain.ldif
+   36  ldapmodify -Y ENTERNAL -H ldapi:/// -f chdomain.ldif
+   37  vim chdomain.ldif
+   38  ldapmodify -Y EXTERNAL -H ldapi:/// -f chdomain.ldif
+   39  vim basedomain.ldif
+   40  ldapmodify -Y EXTERNAL -H ldapi:/// -f basedomain.ldif
+   41  ldapadd -x -D cn=Manager,dc=cdac,dc=in -W -f basedomain.ldif
+   42  history
+   43  cat /etc/passwd
+   44  systemctl status firewalld
+   45  systemctl stop firewalld
+   46  systemctl enable firewalld
+   47  systemctl disable firewalld
+   48  setenforce 0
+   49  vim ldapuser.ldif
+   50  cat ldapuser.ldif 
+   51  ldapadd -x -D cn=Manager,dc=cdac,dc=in -W -f ldapuser.ldif 
+   52  cat /etc/passwd
+   53  cat /etc/passwd | grep 1010
+   54  getent passwd
+   55  ip a
+   56  getent passwd
+   57  history
